@@ -1,0 +1,71 @@
+================================================================================
+                    GESTÃO DE UTILIZADORES E ADMINS
+                           ETube - login.txt
+================================================================================
+
+INSTRUÇÕES:
+- Adicione novos utilizadores na secção "UTILIZADORES" abaixo
+- Adicione novos administradores na secção "ADMINISTRADORES" abaixo
+- Formato: email@etpm.pt | senha_aqui
+- Guarde o ficheiro com as alterações
+- Os dados são sincronizados com a base de dados do servidor
+
+================================================================================
+                           LOGINS ATIVOS ATUAIS
+================================================================================
+
+ADMINISTRADORES:
+- etube@etpm.pt | etpm@2026
+
+CONTAS DE CURSO (com permissão de publicação):
+- tis@etpm.pt | etpm@2026
+- tgei@etpm.pt | etpm@2026
+- tcp@etpm.pt | etpm@2026
+- tpc@etpm.pt | etpm@2026
+- tagd@etpm.pt | etpm@2026
+- tae@etpm.pt | etpm@2026
+
+================================================================================
+                              UTILIZADORES
+================================================================================
+
+Formato: email@etpm.pt | senha
+
+[Adicione novos utilizadores aqui, um por linha]
+Exemplo:
+joao.silva@etpm.pt | senha123
+maria.costa@etpm.pt | senha456
+
+
+================================================================================
+                            ADMINISTRADORES
+================================================================================
+
+Formato: email@etpm.pt | senha
+
+[Adicione novos administradores aqui, um por linha]
+Exemplo:
+diretor@etpm.pt | directorsenha456
+
+
+================================================================================
+                              PERMISSÕES
+================================================================================
+
+Cada utilizador pode ter:
+- canPublish: true/false (pode publicar vídeos)
+- isAdmin: true/false (é administrador)
+- canCreateChannel: true/false (pode criar canal de curso)
+
+Adicione permissões personalizadas aqui (opcional):
+[email] - canPublish: true, isAdmin: false, canCreateChannel: false
+
+
+================================================================================
+                         NOTAS E REGISTOS
+================================================================================
+
+[Escreva observações, datas de criação ou alterações aqui]
+
+
+================================================================================

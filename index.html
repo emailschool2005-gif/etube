@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETube — Plataforma de Vídeos Internos</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────── -->
+  <header>
+    <div class="left">
+      <div class="logo" id="logoBtn">
+        <div class="logo-bg">
+          <img src="etpm.png" alt="Logótipo ETPM" class="logo-img"
+               onerror="this.src='https://placehold.co/40x40?text=ETPM'">
+        </div>
+        ETube<span>.</span>
+      </div>
+    </div>
+
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Pesquisar vídeos...">
+      <button id="searchBtn" aria-label="Pesquisar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+
+    <div class="right">
+      <button id="themeBtn" title="Modo escuro/claro" type="button">🌙</button>
+      <button id="uploadBtn" style="display:none; color:var(--red);" title="Publicar vídeo" type="button">
+        <i class="fa-solid fa-circle-plus"></i>
+      </button>
+      <div id="authArea">
+        <button id="loginBtn" class="modal-btn" type="button"
+                style="padding:8px 14px; font-size:14px; width:auto;">Entrar</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Layout Principal ──────────────────────────────────── -->
+  <div class="container">
+
+    <aside id="sidebar">
+      <a href="#" id="btnHome" class="active">
+        <i class="fa-solid fa-house"></i>
+        <span>Início</span>
+      </a>
+      <a href="#" id="btnTrending">
+        <i class="fa-solid fa-fire"></i>
+        <span>Tendências</span>
+      </a>
+      <a href="#" id="btnHistory">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>Histórico</span>
+      </a>
+    </aside>
+
+    <main>
+
+      <!-- ── Página Inicial ─────────────────────────────── -->
+      <div id="homePage">
+
+        <!-- Cabeçalho da página com filtros -->
+        <div class="home-page-header">
+          <h2 id="pageTitle">Vídeos em Destaque</h2>
+
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+
+            <!-- Seletor de Ordenação -->
+            <select class="sort-select" style="
+              padding:6px 12px; border-radius:20px; border:1px solid var(--hover-bg);
+              background:var(--card-bg); color:var(--text-color); font-size:13px;
+              font-weight:600; cursor:pointer; outline:none;">
+              <option value="recent">Mais recentes</option>
+              <option value="views">Mais vistos</option>
+              <option value="name">Ordem alfabética</option>
+            </select>
+
+            <!-- Dropdown de Cursos -->
+            <div class="course-bubble" id="courseBubble">
+              <i class="fa-solid fa-graduation-cap" style="font-size:14px; color:var(--red);"></i>
+              <span>Cursos</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#888;"></i>
+              <div class="course-dropdown">
+                <button class="course-dropdown-item" data-course="TIS">TIS</button>
+                <button class="course-dropdown-item" data-course="TGEI">TGEI</button>
+                <button class="course-dropdown-item" data-course="TCP">TCP</button>
+                <button class="course-dropdown-item" data-course="TPC">TPC</button>
+                <button class="course-dropdown-item" data-course="TAGD">TAGD</button>
+                <button class="course-dropdown-item" data-course="TAE">TAE</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Barra de Categorias -->
+        <div class="category-bar" id="categoryBar">
+          <!-- Preenchido dinamicamente pelo script.js -->
+          <button class="category-pill active">Todos</button>
+        </div>
+
+        <!-- Painel de Administração -->
+        <div id="adminPanel" style="display:none; padding:16px; background:rgba(200,16,46,.06);
+             border:1px solid rgba(200,16,46,.2); border-radius:12px; margin-bottom:20px;">
+          <h3 style="margin:0 0 4px 0; font-size:15px; color:var(--red);">
+            <i class="fa-solid fa-shield-halved"></i> Painel de Administração
+          </h3>
+          <p style="margin:0 0 14px 0; color:#888; font-size:13px;">
+            Gerir permissões de utilizadores.
+          </p>
+          <div style="display:grid; gap:10px; max-width:520px;">
+            <input type="text" id="approveEmailInput" placeholder="Email do utilizador (ex: joao@etpm.pt)"
+              style="padding:10px; border-radius:8px; border:1px solid var(--hover-bg);
+                     background:var(--light-bg); color:var(--text-color); outline:none;">
+            <div style="display:flex; gap:16px; flex-wrap:wrap;">
+              <label style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
+                <input type="checkbox" id="approvePublishCheck"> Permissão de publicar
+              </label>
+              <label style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
+                <input type="checkbox" id="approveChannelCheck"> Permissão criar canal
+              </label>
+            </div>
+            <input type="password" id="approveAdminPassword" placeholder="Palavra-passe de admin"
+              style="padding:10px; border-radius:8px; border:1px solid var(--hover-bg);
+                     background:var(--light-bg); color:var(--text-color); outline:none;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <button id="approveUserBtn" class="modal-btn" style="width:auto; padding:10px 20px;">
+                Atualizar Permissões
+              </button>
+              <span id="approveUserMessage" style="display:none; font-size:13px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grelha de Vídeos -->
+        <div class="videoGrid" id="videoGrid"></div>
+
+      </div><!-- /homePage -->
+
+
+      <!-- ── Página de Reprodução ───────────────────────── -->
+      <div id="watchPage" class="watch-page" style="display:none;">
+        <div class="main-content">
+
+          <div class="left-column">
+
+            <!-- Player -->
+            <div id="mainPlayer"></div>
+
+            <!-- Informações do Vídeo -->
+            <div id="videoInfo">
+              <h1 id="videoTitle">Título do Vídeo</h1>
+              <p id="videoMeta" style="margin-top:6px; font-size:13px; color:#888;"></p>
+            </div>
+
+            <!-- Comentários -->
+            <div class="comments-section">
+              <h3 style="margin-bottom:14px; font-size:15px;">Comentários</h3>
+
+              <p id="commentLockMessage" style="font-size:13px; color:#888; margin-bottom:12px;">
+                Faça <a href="#" id="inlineLoginLink"
+                  style="color:var(--red); font-weight:600; text-decoration:none;">login</a> para comentar.
+              </p>
+
+              <div class="comment-form" id="commentFields" style="display:none;">
+                <div class="avatar-sim" id="userCommentAvatar">U</div>
+                <div style="flex:1;">
+                  <input type="text" id="commentInput"
+                    placeholder="Adicione um comentário... (Ctrl+Enter para enviar)">
+                  <div class="form-buttons">
+                    <button type="button" id="cancelComment">Cancelar</button>
+                    <button type="button" id="submitComment">Comentar</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="commentsList"></div>
+            </div>
+
+          </div><!-- /left-column -->
+
+          <!-- Recomendados -->
+          <div class="sidebar-recommended">
+            <h3 style="font-size:14px; font-weight:700; margin-bottom:10px; padding:0 4px;">
+              Próximos Vídeos
+            </h3>
+            <div id="recommendedVideos"></div>
+          </div>
+
+        </div>
+      </div><!-- /watchPage -->
+
+    </main>
+  </div><!-- /container -->
+
+
+  <!-- ── Modal: Autenticação ───────────────────────────────── -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModalBtn">&times;</span>
+
+      <div style="display:flex; gap:20px; margin-bottom:12px; border-bottom:1px solid var(--hover-bg);">
+        <h2 id="tabLogin"
+          style="cursor:pointer; padding-bottom:6px; color:var(--text-color);
+                 border-bottom:2px solid var(--red);">Login</h2>
+        <h2 id="tabRegister"
+          style="cursor:pointer; padding-bottom:6px; color:#888;">Registar</h2>
+      </div>
+
+      <p class="modal-subtitle" id="modalSubtitle" style="font-size:13px; color:#888; margin-bottom:16px;">
+        Introduza os seus dados para aceder à sua conta.
+      </p>
+
+      <div class="form-group">
+        <label style="font-size:13px; font-weight:600; margin-bottom:4px;">Email institucional:</label>
+        <input type="email" id="modalEmail" placeholder="ex: joao@etpm.pt" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label style="font-size:13px; font-weight:600; margin-bottom:4px;">Palavra-passe:</label>
+        <input type="password" id="modalPassword" placeholder="Mínimo 4 caracteres" autocomplete="current-password">
+      </div>
+
+      <span class="error-msg" id="modalError"></span>
+      <button type="button" class="modal-btn" id="modalSubmitBtn" style="margin-top:10px;">Entrar</button>
+    </div>
+  </div>
+
+
+  <!-- ── Modal: Publicar Vídeo ─────────────────────────────── -->
+  <div class="modal" id="uploadModal">
+    <div class="modal-content" style="max-width:440px;">
+      <span class="close-modal" id="closeUploadModalBtn">&times;</span>
+      <h2 style="margin-bottom:4px;">Publicar Vídeo</h2>
+      <p style="font-size:13px; color:#888; margin-bottom:20px;">
+        Cole o UUID ou URL do vídeo no PeerTube para o adicionar à plataforma.
+      </p>
+
+      <div class="form-group">
+        <label style="font-size:13px; font-weight:600;">Título do Vídeo:</label>
+        <input type="text" id="videoTitleInput" placeholder="Ex: Aula Prática de Multimédia">
+      </div>
+
+      <div class="form-group">
+        <label style="font-size:13px; font-weight:600;">UUID ou URL do PeerTube:</label>
+        <input type="text" id="videoUrlInput"
+          placeholder="Ex: LjhESXm-8Wc  ou  .../videos/watch/abc-123">
+        <small style="color:#888; font-size:11px; margin-top:4px; display:block;">
+          O URL completo também é aceite — o ID é extraído automaticamente.
+        </small>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-group">
+          <label style="font-size:13px; font-weight:600;">Categoria:</label>
+          <input type="text" id="videoCategoryInput" placeholder="Ex: Multimédia" list="catSuggestions">
+          <datalist id="catSuggestions">
+            <option value="Multimédia">
+            <option value="Programação">
+            <option value="Animação">
+            <option value="Redes">
+            <option value="Eletrónica">
+            <option value="Gestão">
+            <option value="Geral">
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label style="font-size:13px; font-weight:600;">Curso (opcional):</label>
+          <select id="videoCourseInput"
+            style="padding:12px; border-radius:8px; border:1px solid var(--hover-bg);
+                   background:var(--light-bg); color:var(--text-color); outline:none; width:100%;">
+            <option value="">— nenhum —</option>
+            <option value="TIS">TIS</option>
+            <option value="TGEI">TGEI</option>
+            <option value="TCP">TCP</option>
+            <option value="TPC">TPC</option>
+            <option value="TAGD">TAGD</option>
+            <option value="TAE">TAE</option>
+          </select>
+        </div>
+      </div>
+
+      <span class="error-msg" id="uploadError"></span>
+      <button class="modal-btn" id="submitVideoBtn">Publicar na Grelha</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
